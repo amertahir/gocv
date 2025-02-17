@@ -12,7 +12,9 @@ concurrency:
 jobs:
   opencv:
     name: opencv
-    runs-on: ubuntu-latest
+    # GCC on qemu segfaults on s390x and arm64v8 when using 24.04
+    # See also https://github.com/actions/runner-images/issues/11471
+    runs-on: ubuntu-22.04
     permissions:
       packages: write
       contents: read
@@ -51,8 +53,6 @@ jobs:
         run: df . -h
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
-        with:
-          image: tonistiigi/binfmt:qemu-v7.0.0-28
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
       - name: Check out the repo
@@ -96,7 +96,9 @@ jobs:
 
   opencv-static:
     name: opencv-static
-    runs-on: ubuntu-latest
+    # GCC on qemu segfaults on s390x and arm64v8 when using 24.04
+    # See also https://github.com/actions/runner-images/issues/11471
+    runs-on: ubuntu-22.04
     permissions:
       packages: write
       contents: read
@@ -135,8 +137,6 @@ jobs:
         run: df . -h
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
-        with:
-          image: tonistiigi/binfmt:qemu-v7.0.0-28
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
       - name: Check out the repo
