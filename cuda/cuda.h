@@ -26,6 +26,7 @@ typedef struct GpuMats {
 
 GpuMat GpuMat_New();
 GpuMat GpuMat_NewFromMat(Mat mat);
+GpuMat GpuMat_NewFromRoi(GpuMat mat, Rect roi);
 GpuMat GpuMat_NewWithSize(int rows, int cols, int type);
 void GpuMat_Upload(GpuMat m, Mat data, Stream s);
 void GpuMat_Download(GpuMat m, Mat dst, Stream s);

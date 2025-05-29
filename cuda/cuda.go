@@ -11,7 +11,10 @@ package cuda
 #include "cuda.h"
 */
 import "C"
-import "gocv.io/x/gocv"
+import (
+	"gocv.io/x/gocv"
+	"image"
+)
 
 type FeatureSet int
 
@@ -98,6 +101,17 @@ func NewGpuMat() GpuMat {
 // NewGpuMatFromMat returns a new GpuMat based on a Mat
 func NewGpuMatFromMat(mat gocv.Mat) GpuMat {
 	return newGpuMat(C.GpuMat_NewFromMat(C.Mat(mat.Ptr())))
+}
+
+// NewGpuMatFromRoi returns a new GpuMat based on a GpuMat and ROI
+func NewGpuMatFromRoi(mat GpuMat, roi image.Rectangle) GpuMat {
+	roiRect := C.struct_Rect{
+		x:      C.int(roi.Min.X),
+		y:      C.int(roi.Min.Y),
+		width:  C.int(roi.Size().X),
+		height: C.int(roi.Size().Y),
+	}
+	return newGpuMat(C.GpuMat_NewFromRoi(mat.Ptr(), roiRect))
 }
 
 // NewGpuMatWithSize returns a new GpuMat with a specific size and type.

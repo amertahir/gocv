@@ -1,6 +1,7 @@
 package cuda
 
 import (
+	"image"
 	"testing"
 
 	"gocv.io/x/gocv"
@@ -33,6 +34,22 @@ func TestNewGpuMatFromMat(t *testing.T) {
 
 	if !gpumat.Empty() {
 		t.Error("New GpuMat should be empty")
+	}
+}
+
+func TestNewGpuMatFromRoi(t *testing.T) {
+	mat := NewGpuMatWithSize(100, 200, gocv.MatTypeCV32FC4)
+	defer mat.Close()
+
+	roiMat := NewGpuMatFromRoi(mat, image.Rectangle{Min: image.Point{X: 100}, Max: image.Point{X: 200, Y: 100}})
+	defer roiMat.Close()
+
+	if roiMat.Empty() {
+		t.Error("New GpuMat should be not empty")
+	}
+
+	if roiMat.Rows() != 100 || roiMat.Cols() != 100 {
+		t.Error("New GpuMat has wrong cols or rows")
 	}
 }
 

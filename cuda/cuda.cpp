@@ -18,6 +18,16 @@ GpuMat GpuMat_NewFromMat(Mat mat) {
     }
 }
 
+GpuMat GpuMat_NewFromRoi(GpuMat mat, Rect roi) {
+    try {
+        cv::Rect roiRect(roi.x, roi.y, roi.width, roi.height);
+        return new cv::cuda::GpuMat(*mat, roiRect);
+    } catch(const cv::Exception& e){
+        setExceptionInfo(e.code, e.what());
+        return NULL;
+    }
+}
+
 GpuMat GpuMat_NewWithSize(int rows, int cols, int type) {
     try {
         return new cv::cuda::GpuMat(rows, cols, type);
