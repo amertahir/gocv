@@ -48,8 +48,16 @@ func TestNewGpuMatFromRoi(t *testing.T) {
 		t.Error("New GpuMat should be not empty")
 	}
 
-	if roiMat.Rows() != 100 || roiMat.Cols() != 100 {
-		t.Error("New GpuMat has wrong cols or rows")
+	if roiMat.Rows() != 100 {
+		t.Error("incorrect number of rows for GpuMat")
+	}
+
+	if roiMat.Cols() != 100 {
+		t.Error("incorrect number of cols for GpuMat")
+	}
+
+	if roiMat.Type() != gocv.MatTypeCV32FC4 {
+		t.Error("incorrect type for GpuMat")
 	}
 }
 
